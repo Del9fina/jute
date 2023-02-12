@@ -4,8 +4,14 @@ project(libjute_engine)
 set(CMAKE_CXX_STANDARD 23)
 
 include_directories(.)
+include_directories(./vendor)
 
-add_library(jute_engine SHARED libjute/engine/core/engine.cpp)
-target_compile_definitions(jute_engine PUBLIC -DJ_EXPORT)
+link_directories(vendor/lib)
+
+add_library(jute_engine SHARED libjute/engine/core/engine.cpp libjute/engine/core/logger.cpp)
+target_link_libraries(jute_engine PRIVATE spdlog)
+target_compile_definitions(jute_engine
+        PRIVATE -DLIBJUTE_ENGINE_EXPORT
+        PUBLIC $<$<CONFIG:Debug>:LIBJUTE_ENGINE_DEBUG>)
 
 add_executable(test_basic tests/basic/main.cpp)

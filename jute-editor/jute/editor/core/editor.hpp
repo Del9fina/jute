@@ -3,5 +3,3 @@
 //
 
 #pragma once
-
-#include <jute/editor/core/defines.h>
