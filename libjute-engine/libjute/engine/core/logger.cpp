@@ -30,7 +30,7 @@ struct Logger::StaticConstructor {
 #else
         const spdlog::level::level_enum LEVEL = spdlog::level::off;
 #endif
-        const std::string PATTERN = "[%Y-%m-%d %T.%e] [%^%l%$] [%g:%#] [%!] %v";
+        const std::string PATTERN = "[%Y-%m-%d %T.%e] [%^%l%$] %v";
         const std::string LOGGER_NAME = "jute-engine";
         const std::string FILE_NAME = "log/all.txt";
 

@@ -199,3 +199,7 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
+
+-- NOTE: Third party dependency used by this software --
+This software depends on the spdlog lib (MIT License),
+and users must comply to its license: https://github.com/gabime/spdlog/blob/v1.x/LICENSE
