@@ -3,3 +3,8 @@
 //
 
 #include <tests/basic/main.hpp>
+#include <libjute/engine/core/engine.hpp>
+
+int main() {
+    jute_engine::foo();
+}

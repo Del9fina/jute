@@ -3,15 +3,9 @@
 //
 
 #include <string>
-#include <utility>
-
-#ifdef LIBJUTE_ENGINE_DEBUG
-    #define LIBJUTE_ENGINE_LOG_LEVEL spdlog::level::trace
-#else
-    #define LIBJUTE_ENGINE_LOG_LEVEL spdlog::level::err
-#endif
 
 #include <spdlog/logger.h>
+#include <spdlog/spdlog.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/sinks/basic_file_sink.h>
 
@@ -19,54 +13,63 @@
 
 namespace jute_engine {
 
-struct Logger::LoggerImpl {
-    spdlog::logger logger;
+struct Logger::StaticConstructor {
+    StaticConstructor() {
+#if LIBJUTE_ENGINE_LOGGER_ACTIVE_LEVEL == LIBJUTE_ENGINE_LOGGER_LEVEL_TRACE
+        const spdlog::level::level_enum LEVEL = spdlog::level::trace;
+#elif LIBJUTE_ENGINE_LOGGER_ACTIVE_LEVEL == LIBJUTE_ENGINE_LOGGER_LEVEL_DEBUG
+        const spdlog::level::level_enum LEVEL = spdlog::level::debug;
+#elif LIBJUTE_ENGINE_LOGGER_ACTIVE_LEVEL == LIBJUTE_ENGINE_LOGGER_LEVEL_INFO
+        const spdlog::level::level_enum LEVEL = spdlog::level::info;
+#elif LIBJUTE_ENGINE_LOGGER_ACTIVE_LEVEL == LIBJUTE_ENGINE_LOGGER_LEVEL_WARN
+        const spdlog::level::level_enum LEVEL = spdlog::level::warn;
+#elif LIBJUTE_ENGINE_LOGGER_ACTIVE_LEVEL == LIBJUTE_ENGINE_LOGGER_LEVEL_ERROR
+        const spdlog::level::level_enum LEVEL = spdlog::level::err;
+#elif LIBJUTE_ENGINE_LOGGER_ACTIVE_LEVEL == LIBJUTE_ENGINE_LOGGER_LEVEL_CRITICAL
+        const spdlog::level::level_enum LEVEL = spdlog::level::critical;
+#else
+        const spdlog::level::level_enum LEVEL = spdlog::level::off;
+#endif
+        const std::string PATTERN = "[%Y-%m-%d %T.%e] [%^%l%$] [%g:%#] [%!] %v";
+        const std::string LOGGER_NAME = "jute-engine";
+        const std::string FILE_NAME = "log/all.txt";
 
-    LoggerImpl() = delete;
+        auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
+        auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(FILE_NAME, true);
 
-    explicit LoggerImpl(spdlog::logger logger) : logger(std::move(logger)) {}
+        auto logger = spdlog::logger(LOGGER_NAME, {console_sink, file_sink});
+        logger.set_level(LEVEL);
+        logger.set_pattern(PATTERN);
+
+        spdlog::set_default_logger(std::make_shared<spdlog::logger>(logger));
+    }
 };
 
-Logger::Logger(const std::string& name) : Logger(name, "log/all.txt") {}
-
-Logger::Logger(const std::string& name, const std::string& filename) {
-    auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
-
-    auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(filename, true);
-
-    auto logger = spdlog::logger(name, {console_sink, file_sink});
-    logger.set_level(LIBJUTE_ENGINE_LOG_LEVEL);
-    logger.set_pattern("[%Y-%m-%d %T.%e] [%^%l%$] [%n] %v");
-
-    logger_impl = std::make_unique<LoggerImpl>(logger);
-}
-
-Logger::~Logger() {
-    logger_impl = nullptr;
-}
+// this causes above setup to run
+[[maybe_unused]] Logger::StaticConstructor Logger::static_constructor;
 
 void Logger::trace(const std::string& msg) {
-    logger_impl->logger.trace(msg);
+    spdlog::trace(msg);
 }
 
 void Logger::debug(const std::string& msg) {
-    logger_impl->logger.debug(msg);
+    spdlog::debug(msg);
 }
 
 void Logger::info(const std::string& msg) {
-    logger_impl->logger.info(msg);
+    spdlog::info(msg);
 }
 
 void Logger::warn(const std::string& msg) {
-    logger_impl->logger.warn(msg);
+    spdlog::warn(msg);
 }
 
 void Logger::error(const std::string& msg) {
-    logger_impl->logger.error(msg);
+    spdlog::error(msg);
 }
 
 void Logger::critical(const std::string& msg) {
-    logger_impl->logger.critical(msg);
+    spdlog::critical(msg);
 }
 
 }

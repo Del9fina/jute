@@ -7,9 +7,10 @@
 
 int main() {
     jute_engine::foo(); // TODO: remove
-    jute_engine::Logger logger("editor");
-    logger.info("I am a logger");
-    logger.error("This is an error");
+    jute_engine::Logger::info("{}", "I am a logger");
+    jute_engine::Logger::error("{}", "This is an error");
+    LIBJUTE_ENGINE_LOG_INFO("{}", "I am a logger (macro)");
+    LIBJUTE_ENGINE_LOG_ERROR("{}", "This is an error (macro)");
     return 0;
 }
 

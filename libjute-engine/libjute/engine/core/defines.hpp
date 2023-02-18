@@ -17,12 +17,12 @@
     #ifdef LIBJUTE_ENGINE_WINDOWS
         #define LIBJUTE_ENGINE_API __declspec(dllexport)
     #else
-        #define LIBJUTE_ENGINE_API
+        #define LIBJUTE_ENGINE_API (void)0
     #endif
 #else
     #ifdef LIBJUTE_ENGINE_WINDOWS
         #define LIBJUTE_ENGINE_API __declspec(dllimport)
     #else
-        #define LIBJUTE_ENGINE_API
+        #define LIBJUTE_ENGINE_API (void)0
     #endif
 #endif

@@ -13,18 +13,19 @@
 namespace jute_engine {
 
 void foo() { // TODO: remove
-    spdlog::info("{}", "Test spdlog global");
-    spdlog::debug("{}", "Test spdlog global debug");
-    spdlog::info(0);
+    Logger::trace("{}", "test trace");
+    Logger::debug("{}", "test debug");
+    Logger::info("{}", "test info");
+    Logger::warn("{}", "test warn");
+    Logger::error("{}", "test error");
+    Logger::critical("{}", "test critical");
 
-    auto logger = std::make_unique<Logger>("engine", "log/test_log.txt");
-
-    logger->trace("test trace");
-    logger->debug("test debug");
-    logger->info("test info");
-    logger->warn("test warn");
-    logger->error("test error");
-    logger->critical("test critical");
+    LIBJUTE_ENGINE_LOG_TRACE("{}", "test macro trace");
+    LIBJUTE_ENGINE_LOG_DEBUG("{}", "test macro debug");
+    LIBJUTE_ENGINE_LOG_INFO("{}", "test macro info");
+    LIBJUTE_ENGINE_LOG_WARN("{}", "test macro warn");
+    LIBJUTE_ENGINE_LOG_ERROR("{}", "test macro error");
+    LIBJUTE_ENGINE_LOG_CRITICAL("{}", "test macro critical");
 }
 
 }
