@@ -1,7 +1,10 @@
-//
-// Created by Del9fina on 11.02.2023.
-//
+/*!
+ * @file logger.cpp
+ * @author Del9fina
+ * @date 11.02.2023
+ */
 
+#include <filesystem>
 #include <string>
 
 #include <spdlog/logger.h>
@@ -32,12 +35,20 @@ struct Logger::StaticConstructor {
 #endif
         const std::string PATTERN = "[%Y-%m-%d %T.%e] [%^%l%$] %v";
         const std::string LOGGER_NAME = "jute-engine";
-        const std::string FILE_NAME = "log/all.txt";
+
+        auto sinks_list = std::vector<spdlog::sink_ptr>();
 
         auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
-        auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(FILE_NAME, true);
+        sinks_list.push_back(console_sink);
 
-        auto logger = spdlog::logger(LOGGER_NAME, {console_sink, file_sink});
+#ifdef LIBJUTE_ENGINE_LOG_DIR
+        // TODO: set up file sink at runtime instead to allow different paths for different apps using same dll
+        const auto LOG_FILE_PATH = std::filesystem::path(LIBJUTE_ENGINE_LOG_DIR) / std::filesystem::path("all.txt");
+        auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(LOG_FILE_PATH.string(), true);
+        sinks_list.push_back(file_sink);
+#endif
+
+        auto logger = spdlog::logger(LOGGER_NAME, sinks_list.begin(), sinks_list.end());
         logger.set_level(LEVEL);
         logger.set_pattern(PATTERN);
 
@@ -72,4 +83,4 @@ void Logger::critical(const std::string& msg) {
     spdlog::critical(msg);
 }
 
-}
+} // namespace jute_engine

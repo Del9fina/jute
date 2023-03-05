@@ -1,0 +1,10 @@
+@PACKAGE_INIT@
+
+cmake_path(GET CMAKE_CURRENT_BINARY_DIR FILENAME REL_BINARY_DIR)
+find_package(libjute-engine REQUIRED HINTS "${CMAKE_CURRENT_LIST_DIR}/.." PATH_SUFFIXES "${REL_BINARY_DIR}" build)
+
+set(TARGETS_FILE @TARGETS_FILE@)
+
+include("${CMAKE_CURRENT_LIST_DIR}/${TARGETS_FILE}")
+
+check_required_components(jute-editor)

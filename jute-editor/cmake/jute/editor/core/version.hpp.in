@@ -1,0 +1,9 @@
+/*!
+ * @file version.hpp
+ * @author Del9fina 
+ * @date 27.02.2023
+ */
+
+#pragma once
+
+#define JUTE_EDITOR_VERSION "@PROJECT_VERSION@"

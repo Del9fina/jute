@@ -1,0 +1,9 @@
+@PACKAGE_INIT@
+
+find_package(spdlog REQUIRED HINTS "${CMAKE_CURRENT_LIST_DIR}/../.." PATH_SUFFIXES build cmake-build-release)
+
+set(TARGETS_FILE @TARGETS_FILE@)
+
+include("${CMAKE_CURRENT_LIST_DIR}/${TARGETS_FILE}")
+
+check_required_components(libjute-engine)

@@ -1,6 +1,8 @@
-//
-// Created by Del9fina on 04.02.2023.
-//
+/*!
+ * @file engine.hpp
+ * @author Del9fina
+ * @date 04.02.2023
+ */
 
 #pragma once
 
@@ -10,4 +12,4 @@ namespace jute_engine {
 
 LIBJUTE_ENGINE_API void foo();
 
-}
+} // namespace jute_engine

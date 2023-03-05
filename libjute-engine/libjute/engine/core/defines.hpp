@@ -1,6 +1,8 @@
-//
-// Created by Del9fina on 05.02.2023.
-//
+/*!
+ * @file defines.hpp
+ * @author Del9fina
+ * @date 05.02.2023
+ */
 
 #pragma once
 

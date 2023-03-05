@@ -1,11 +1,10 @@
-//
-// Created by Del9fina on 11.02.2023.
-//
+/*!
+ * @file logger.hpp
+ * @author Del9fina
+ * @date 11.02.2023
+ */
 
 #pragma once
-
-#include <memory>
-#include <string>
 
 #include <spdlog/fmt/bundled/core.h> // TODO: switch to C++20 STD implementation when available
 
@@ -65,7 +64,7 @@ public:
     }
 };
 
-}
+} // namespace jute_engine
 
 #define LIBJUTE_ENGINE_LOGGER_LEVEL_TRACE 0
 #define LIBJUTE_ENGINE_LOGGER_LEVEL_DEBUG 1

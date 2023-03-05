@@ -1,0 +1,9 @@
+/*!
+ * @file version.hpp
+ * @author Del9fina
+ * @date 23.02.2023
+ */
+
+#pragma once
+
+#define LIBJUTE_ENGINE_VERSION "@PROJECT_VERSION@"

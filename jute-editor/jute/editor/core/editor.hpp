@@ -1,5 +1,7 @@
-//
-// Created by Del9fina on 04.02.2023.
-//
+/*!
+ * @file editor.hpp
+ * @author Del9fina
+ * @date 04.02.2023
+ */
 
 #pragma once
